@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2010-2011, Code Aurora Forum. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -537,7 +538,8 @@ public class MmsSmsDatabaseHelper extends SQLiteOpenHelper {
                    Mms.DELIVERY_TIME + " INTEGER," +
                    Mms.DELIVERY_REPORT + " INTEGER," +
                    Mms.LOCKED + " INTEGER DEFAULT 0," +
-                   Mms.SEEN + " INTEGER DEFAULT 0" +
+                   Mms.SEEN + " INTEGER DEFAULT 0," +
+                   Mms.SUB_ID + " INTEGER DEFAULT 0" +
                    ");");
 
         db.execSQL("CREATE TABLE " + MmsProvider.TABLE_ADDR + " (" +
@@ -630,6 +632,8 @@ public class MmsSmsDatabaseHelper extends SQLiteOpenHelper {
                    "body TEXT," +
                    "service_center TEXT," +
                    "locked INTEGER DEFAULT 0," +
+                   "sub_id INTEGER DEFAULT 0," +   // sub_id : 0 for subscription 1
+                                                   // sub_id : 1 for subscription 2
                    "error_code INTEGER DEFAULT 0," +
                    "seen INTEGER DEFAULT 0" +
                    ");");
