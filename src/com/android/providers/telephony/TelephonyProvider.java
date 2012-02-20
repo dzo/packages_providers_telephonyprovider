@@ -243,6 +243,8 @@ public class TelephonyProvider extends ContentProvider
             ContentValues map = new ContentValues();
             // get the profile type from the XML file tags
             String prof_type = parser.getName();
+            if(prof_type == null)
+                return null;
             if (prof_type.equals("apn")) {
                 map.put(Telephony.Carriers.PROFILE_TYPE, "apn");
             } else if (prof_type.equals("nai")) {
@@ -262,7 +264,7 @@ public class TelephonyProvider extends ContentProvider
             map.put(Telephony.Carriers.USER, parser.getAttributeValue(null, "user"));
             map.put(Telephony.Carriers.SERVER, parser.getAttributeValue(null, "server"));
             map.put(Telephony.Carriers.PASSWORD, parser.getAttributeValue(null, "password"));
-
+//            Log.i(TAG, "read "+mcc+","+mnc);
             // do not add NULL to the map so that insert() will set the default value
             String proxy = parser.getAttributeValue(null, "proxy");
             if (proxy != null) {
@@ -323,6 +325,7 @@ public class TelephonyProvider extends ContentProvider
         private void loadApns(SQLiteDatabase db, XmlPullParser parser) {
             if (parser != null) {
                 try {
+                    db.beginTransaction();
                     while (true) {
                         XmlUtils.nextElement(parser);
                         ContentValues row = getRow(parser);
@@ -332,10 +335,13 @@ public class TelephonyProvider extends ContentProvider
                             break;  // do we really want to skip the rest of the file?
                         }
                     }
+                    db.setTransactionSuccessful();
                 } catch (XmlPullParserException e)  {
                     Log.e(TAG, "Got execption while getting perferred time zone.", e);
                 } catch (IOException e) {
                     Log.e(TAG, "Got execption while getting perferred time zone.", e);
+                } finally {
+                    db.endTransaction();
                 }
             }
         }
