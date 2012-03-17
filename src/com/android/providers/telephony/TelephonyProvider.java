@@ -639,7 +639,7 @@ public class TelephonyProvider extends ContentProvider
             case URL_PREFERAPN:
             {
                 setPreferredApnId((long)-1);
-                count = 1;
+                count = 0;
                 break;
             }
 
@@ -694,7 +694,7 @@ public class TelephonyProvider extends ContentProvider
                 if (values != null) {
                     if (values.containsKey(COLUMN_APN_ID)) {
                         setPreferredApnId(values.getAsLong(COLUMN_APN_ID));
-                        count = 1;
+                        count = 0;
                     }
                 }
                 break;
